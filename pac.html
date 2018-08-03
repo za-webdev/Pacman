@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Pacman Game</title>
+	<link rel="stylesheet" type="text/css" href="pacman.css">
+</head>
+<body>
+	<div class="container">
+
+	<div id="world"></div>
+
+	<div id="pacman"></div>
+
+	<div id="red"></div>
+
+	<div id="blue"></div>
+
+	<div id="score"> 0 </div>
+
+	</div>
+
+	<script>
+		
+		var world= [
+			[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+			[2,0,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2],
+			[2,1,2,2,1,2,2,2,1,2,1,2,2,2,1,2,2,1,2],
+			[2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2],
+			[2,1,2,2,1,2,1,2,2,2,2,2,1,2,1,2,2,1,2],
+			[2,1,1,1,1,2,1,1,1,2,1,1,1,2,1,1,1,1,2],
+			[2,2,2,2,1,2,2,2,1,2,1,2,2,2,1,2,2,2,2],
+			[2,0,0,2,1,2,1,1,1,1,1,1,1,2,1,2,0,0,2],
+			[2,2,2,2,1,2,1,2,2,0,2,2,1,2,1,2,2,2,2],
+			[2,1,1,1,1,1,1,2,0,0,0,2,1,1,1,1,1,1,2],
+			[2,2,2,2,1,2,1,2,0,0,0,2,1,2,1,2,2,2,2],
+			[2,0,0,2,1,2,1,2,2,2,2,2,1,2,1,2,0,0,2],
+			[2,0,0,2,1,2,1,1,1,1,1,1,1,2,1,2,0,0,2],
+			[2,2,2,2,1,2,1,2,2,2,2,2,1,2,1,2,2,2,2],
+			[2,1,1,1,1,1,1,1,1,2,1,1,1,1,1,1,1,1,2],
+			[2,1,2,2,1,2,2,2,1,2,1,2,2,2,1,2,2,1,2],
+			[2,1,1,2,1,1,1,1,1,1,1,1,1,1,1,2,1,1,2],
+			[2,2,1,2,1,2,1,2,2,2,2,2,1,2,1,2,1,2,2],
+			[2,1,1,1,1,2,1,1,1,2,1,1,1,2,1,1,1,1,2],
+			[2,2,2,2,2,2,2,2,1,2,1,2,2,2,2,2,2,1,2],
+			[2,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2],
+			[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2]
+		];
+		var score=0;
+		var pacman={
+			x:1,
+			y:1
+		}
+
+		var red={
+			x:10,
+			y:10
+		}
+
+		var blue={
+			x:10,
+			y:5
+		}
+
+		var count=0;
+
+
+		function displayWorld() {
+			var output="";
+
+			for(var i=0;i<world.length;i++){
+				output+="<div class='row'>";
+				for (var j=0;j<world[i].length;j++){
+					if(world[i][j]==2){
+						output+="\n\t<div class='brick'></div>";
+					}
+
+					else if(world[i][j]==1){
+						output+="\n\t<div class='coin'></div>";
+						// count++;
+					}
+
+					if(world[i][j]==0){
+						output+="\n\t<div class='empty'></div>";
+					}
+					
+				}
+				output+="</div>";
+			}
+			
+			// console.log(count);
+			document.getElementById('world').innerHTML= output;
+		}
+
+		function displayPacman() {
+			document.getElementById("pacman").style.top= pacman.y*24+"px";
+			document.getElementById("pacman").style.left= pacman.x*24+"px";
+		}
+
+		function displayRed() {
+			document.getElementById("red").style.top= red.y*24+"px";
+			document.getElementById("red").style.left= red.x*24+"px";
+		}
+
+		function displayBlue() {
+			document.getElementById("blue").style.top= blue.y*24+"px";
+			document.getElementById("blue").style.left= blue.x*24+"px";
+		}
+
+		function displayScore(){
+			document.getElementById("score").innerHTML=score;
+		}
+
+
+		displayWorld();
+		displayPacman();
+		displayRed();
+		displayScore();
+		displayBlue();
+
+		function moveRed(){
+			var random = Math.floor((Math.random() * 4) +1);
+			console.log(random);
+			if (random ==1){
+				red.x--;
+			}
+			else if (random == 2){
+				red.x ++;
+			}
+			else if (random == 3){
+				red.y--;
+			}
+			else if (random == 4){
+				red.y++;
+			}
+		}
+
+
+		displayRed();
+		moveRed();
+		moveBlue();
+
+		function moveBlue(){
+			var random = Math.floor((Math.random() * 4) +1);
+			console.log(random);
+			if (random ==1){
+				blue.x--;
+			}
+			else if (random == 2){
+				blue.x ++;
+			}
+			else if (random == 3){
+				blue.y--;
+			}
+			else if (random == 4){
+				blue.y++;
+			}
+		}
+
+		displayRed();
+		moveRed();
+		moveBlue();
+
+
+		document.onkeydown = function(e){
+			if(e.keyCode == 37 && world[pacman.y][pacman.x -1] != 2){
+				pacman.x --;
+				// pinky.x++;
+			}
+
+			else if(e.keyCode == 39 && world[pacman.y][pacman.x +1] != 2){
+				pacman.x ++;
+				// pinky.x ++;
+			}
+
+			else if(e.keyCode == 38 && world[pacman.y -1][pacman.x] != 2){
+				pacman.y --;
+				// pinkny.y --;
+			}
+
+			else if(e.keyCode == 40 && world[pacman.y +1][pacman.x] != 2){
+				pacman.y ++;
+				// pinky.y ++;
+			}
+
+			if(world[pacman.y][pacman.x ] ==1){
+				world[pacman.y][pacman.x ] = 0;
+				score +=10;
+				displayScore();
+				displayWorld();
+				
+			}
+
+			if(score == 1840){
+				setTimeout(function(){ alert("you win"); }, 0000);
+			}
+
+			if(world[pacman.y] == world[red.y]){
+				if(world[pacman.x] == world[red.x]){
+					fail();
+				}
+			}
+
+			if(world[pacman.y] == world[blue.y]){
+				if(world[pacman.x] == world[blue.x]){
+					fail();
+				}
+			}
+
+
+			function fail() {
+				score -=50;
+				displayScore();
+				displayWorld();
+    			setTimeout(function(){ alert("awww you lost"); }, 0000);
+			}
+
+			console.log(e.keyCode);
+			displayRed();
+			displayBlue();
+			displayPacman();
+			moveRed();
+			moveBlue();
+
+		}
+
+
+
+	</script>
+</body>
+</html>
